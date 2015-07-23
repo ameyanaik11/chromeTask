@@ -1,0 +1,28 @@
+body {
+    width: 320px;
+}
+
+.everTag-item .btn-remove-everTag {
+    display:none;
+}
+
+.everTag-item:hover .btn-remove-everTag {
+    display: block;
+}
+
+.everTag-item .everTag-content {
+    font-weight: bold;
+}
+.everTag-item.completed .everTag-content {
+    color:darkgray;
+    font-weight: normal;
+    text-decoration: line-through;
+}
+
+#everTag-list {
+    margin-bottom: 10px;
+}
+
+#btn-remove-all {
+    margin-bottom: 10px;
+}
