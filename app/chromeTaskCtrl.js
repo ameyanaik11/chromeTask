@@ -1,7 +1,6 @@
 'use strict';
 
-angular.module('app').controller('chromeTaskCtrl', function ($scope, chromeTaskStorage) {
-
+angular.module('app').controller('chromeTaskCtrl', ['$scope', '$mdSidenav', 'chromeTaskStorage', function ($scope, $mdSidenav, chromeTaskStorage) {
     // chromeTask - Storage: to store the tags locally
     $scope.chromeTaskStorage = chromeTaskStorage;
 
@@ -20,10 +19,10 @@ angular.module('app').controller('chromeTaskCtrl', function ($scope, chromeTaskS
         var storeTag = {
             domain: $scope.current.domain,  // can be dropped in future to optimize storage
             url: $scope.current.url,
-            tag: $scope.newContent
+            tag: $scope.input.newTag.value
         };
         chromeTaskStorage.add(storeTag);
-        $scope.newContent = '';
+        $scope.input.newTag.value = undefined;
     }
 
     $scope.remove = function(chromeTask) {
@@ -47,6 +46,16 @@ angular.module('app').controller('chromeTaskCtrl', function ($scope, chromeTaskS
         domain:     undefined,
         url:        undefined
     };
+    $scope.input = {
+        newTag: {
+            label: 'New tag?',
+            value: undefined
+        },
+        searchTag: {
+            label: 'Filter tags',
+            value: undefined
+        },
+    }
 
     // chromeTask - init
     $scope.init = function() {
@@ -58,6 +67,10 @@ angular.module('app').controller('chromeTaskCtrl', function ($scope, chromeTaskS
             var matches = $scope.current.url.match(/^https?\:\/\/([^\/?#]+)(?:[\/?#]|$)/i);
             $scope.current.domain = matches && matches[1];  // null if no domain is found
 
+            // Update input label
+            $scope.input.newTag.label = "New tag for " + $scope.current.domain;
+            $scope.input.searchTag.label = "Tags for " + $scope.current.domain + " (Search ?)";
+
             // Refresh the view
             $scope.$digest();
         };  
@@ -67,4 +80,4 @@ angular.module('app').controller('chromeTaskCtrl', function ($scope, chromeTaskS
             setCurrentPageInfo
         );
     }
-});
+}]);

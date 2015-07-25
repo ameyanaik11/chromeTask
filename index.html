@@ -2,52 +2,90 @@
 <html ng-app='app'>
 <head>
     <title>ChromeTask</title>
-    <link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.min.css">
+    <!-- Angular Material CSS now available via Google CDN; version 0.10 used here -->
+    <link rel="stylesheet" type="text/css" href="css/angular-material.min.css">
+
 </head>
 <body ng-controller='chromeTaskCtrl' data-ng-init='init()'>
-    <div class='container'>
 
-        <div class='row'>
+
+    <div class='container'>
+        <!--div class='row'>
             <div class='col-md-12'>
                 <h5>{{ (chromeTaskList | filter: {completed:false}).length}} tag(s)</h5>
-                <form id='chromeTask-form' ng-submit='add()'>
-                    <div class="form-group">
-                        <input type='text' id='new-chromeTask' ng-model='newContent' class="form-control" placeholder="What to tag for {{current.domain}} ?"/>
-                    </div>
-                </form>
             </div>
-        </div>
+        </div-->
 
+        <div class='row'>
+        <form id='chromeTask-form' ng-submit='add()'>
+            <md-content md-theme="docs-dark" layout-padding="1px" layout="row" layout-sm="column">
+                <md-input-container class="noPad">
+                  <label>{{input.newTag.label}}</label>
+                  <input ng-model="input.newTag.value">
+                </md-input-container>
+            </md-content>
+        </form>
+        </div>
         <div class='row' id="chromeTask-list" ng-show="(chromeTaskList | filter:current.domain).length">
-            Tags for <b>{{current.domain | lowercase}}</b>:
-            <input type='text' id='new-chromeTask' ng-model='filterForTag' class="form-control" placeholder="Filter tag ?"/>
-            <div class='chromeTask-item col-md-12' ng-repeat='chromeTask in chromeTaskList | filter:current.domain |filter:filterForTag | orderBy: createdAt as finalTags track by chromeTask.id' ng-class='{completed: chromeTask.completed}'>
+            <!--Tags for <b>{{current.domain | lowercase}}</b>: -->
+            <!--input type='text' id='new-chromeTask' ng-model='filterForTag' class="form-control" placeholder="Filter tag ?"/-->
+
+            <md-content layout-padding="" layout="row" layout-sm="column">
+                <md-input-container>
+                  <label>{{input.searchTag.label}}</label>
+                  <input ng-model="input.searchTag.value">
+                </md-input-container>
+            </md-content>
+
+            <div class='chromeTask-item col-md-12' ng-repeat='chromeTask in chromeTaskList | filter:current.domain |filter:input.searchTag.value | orderBy: createdAt as finalTags track by chromeTask.id' ng-class='{completed: chromeTask.completed}'>
+                <!--
                 <input type='checkbox' ng-model='chromeTask.completed' ng-click='toggleCompleted()'/>
                 <span class='chromeTask-content'><a href="{{chromeTask.content.url}}">{{chromeTask.content.tag}}</a></span>
-                <a class='btn-remove-chromeTask pull-right' ng-click='remove(chromeTask)'><i class='glyphicon glyphicon-remove'></i> </a>
+                -->
+                <span class='chromeTask-content'>
+                <md-checkbox ng-model='chromeTask.completed' ng-click="toggleCompleted()" aria-label="{{chromeTask.content.tag}}" class="md-primary">
+                  {{ chromeTask.content.tag }} <a class='btn-remove-chromeTask pull-right' ng-click='remove(chromeTask)'><i class='glyphicon glyphicon-remove'></i> </a>
+                </md-checkbox>
+                </span>
+                
+
             </div>
         </div>
 
         <div class='row' ng-show="(chromeTaskList | filter:current.domain).length">
             <div class='col-md-12'>
                 <div id='toolbar'>
-                    <a id="btn-remove-all"
+                    <!--a id="btn-remove-all"
                         ng-click='removeAll()'
                         class='btn btn-small btn-default pull-right'
                         ng-show="chromeTaskList.length > 0">
                         <i class="glyphicon glyphicon-remove"></i> Clear all tags
-                    </a>
+                    </a-->
+                    
+                    <md-button class="md-warn" id="btn-remove-all"
+                        ng-click='removeAll()'
+                        class='btn btn-small btn-default pull-right'
+                        ng-show="chromeTaskList.length > 0">Clear all tags</md-button>
                 </div>
             </div>
         </div>
 
     </div>
+
     <script type="text/javascript" src="lib/jquery/jquery-2.1.3.min.js"></script>
     <script type="text/javascript" src="lib/angular/angular.js"></script>
     <script type="text/javascript" src="lib/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="app/app.js"></script>
     <script type="text/javascript" src="app/chromeTaskCtrl.js"></script>
     <script type="text/javascript" src="app/chromeTaskStorage.js"></script>
+
+     <!-- Angular Material Dependencies -->
+    <script src="lib/angular/angular-animate.js"></script>
+    <script src="lib/angular/angular-aria.js"></script>
+
+    <!-- Angular Material Javascript now available via Google CDN; version 0.10 used here -->
+    <script src="lib/angular/angular-material.js"></script>
 </body>
 </html>

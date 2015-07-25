@@ -1,28 +1,35 @@
 body {
-    width: 320px;
+    width: 400px;
+    min-height:100%; height:auto;
 }
 
-.everTag-item .btn-remove-everTag {
+.chromeTask-item .btn-remove-chromeTask {
     display:none;
 }
 
-.everTag-item:hover .btn-remove-everTag {
+.chromeTask-item:hover .btn-remove-chromeTask {
     display: block;
 }
 
-.everTag-item .everTag-content {
+.chromeTask-item .chromeTask-content {
     font-weight: bold;
 }
-.everTag-item.completed .everTag-content {
+.chromeTask-item.completed .chromeTask-content {
     color:darkgray;
     font-weight: normal;
     text-decoration: line-through;
 }
 
-#everTag-list {
+#chromeTask-list {
     margin-bottom: 10px;
 }
 
 #btn-remove-all {
     margin-bottom: 10px;
 }
+
+md-input-container {
+	padding: 0 !important;
+}
+md-input-container .md-input {
+	padding: 1px !important;
