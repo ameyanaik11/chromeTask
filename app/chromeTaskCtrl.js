@@ -69,7 +69,7 @@ angular.module('app').controller('chromeTaskCtrl', ['$scope', '$mdSidenav', 'chr
 
             // Update input label
             $scope.input.newTag.label = "Add new tag for " + $scope.current.domain;
-            $scope.input.searchTag.label = "Search a tags for " + $scope.current.domain;
+            $scope.input.searchTag.label = "Search tags for " + $scope.current.domain;
 
             // Refresh the view
             $scope.$digest();
