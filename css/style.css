@@ -13,6 +13,7 @@ body {
 
 .chromeTask-item .chromeTask-content {
     font-weight: bold;
+    white-space: nowrap;
 }
 .chromeTask-item.completed .chromeTask-content {
     color:darkgray;

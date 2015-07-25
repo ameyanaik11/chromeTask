@@ -10,51 +10,111 @@
 </head>
 <body ng-controller='chromeTaskCtrl' data-ng-init='init()'>
 
-
     <div class='container'>
-        <!--div class='row'>
-            <div class='col-md-12'>
-                <h5>{{ (chromeTaskList | filter: {completed:false}).length}} tag(s)</h5>
-            </div>
-        </div-->
+        <!-- tabs -->
+        <md-content class="md-padding">
+            <md-tabs md-dynamic-height="" md-border-bottom="">
+              <md-tab label="{{current.domain}}">
+                <md-content> <!--class="md-padding" -->
+                  <!--h1 class="md-display-2">{{current.domain}}</h1-->
+                    <!-- New task for current domain -->
+                    <div class='row'>
+                        <form id='chromeTask-form' ng-submit='add()' class="col-md-12"> <!-- style="padding: 0px 7px;" -->
+                            <!--md-content md-theme="docs-dark" layout-padding="0px" layout="row" layout-sm="column" -->
+                                <md-input-container class="noPad" style="line-height:8px">
+                                  <label>{{input.newTag.label}}</label>
+                                  <input ng-model="input.newTag.value">
+                                </md-input-container>
+                            <!--/md-content-->
+                        </form>
+                    </div>
+
+                    <!-- List all tasks for current domain -->
+                    <div class='row' id="chromeTask-list" ng-show="(chromeTaskList | filter:current.domain).length"  style="margin-bottom: 0px;">
+                        <!--Tags for <b>{{current.domain | lowercase}}</b>: -->
+                        <!--input type='text' id='new-chromeTask' ng-model='filterForTag' class="form-control" placeholder="Filter tag ?"/-->
+
+                        <!-- Enable filtering within list of tasks -->
+                        <div class='col-md-12'>
+                            <!--md-content layout-padding="" layout="row" layout-sm="column"-->
+                                <md-input-container class="noPad" style="line-height:8px">
+                                  <label>{{input.searchTag.label}}</label>
+                                  <input ng-model="input.searchTag.value">
+                                </md-input-container>
+                            <!--/md-content-->
+                        </div>
+
+                        <div class='chromeTask-item col-md-12' ng-repeat='chromeTask in chromeTaskList | filter:current.domain |filter:input.searchTag.value | orderBy: createdAt as finalTags track by chromeTask.id' ng-class='{completed: chromeTask.completed}'>
+                            <!--
+                            <input type='checkbox' ng-model='chromeTask.completed' ng-click='toggleCompleted()'/>
+                            <span class='chromeTask-content'><a href="{{chromeTask.content.url}}">{{chromeTask.content.tag}}</a></span>
+                            -->
+                            <!-- there is an problem with ng-click on md-checkbox
+                                http://stackoverflow.com/questions/30509175/ng-click-not-firing-on-checkbox-consistently
+                            -->
+
+                            <span class='chromeTask-content'>
+                            <md-checkbox ng-model='chromeTask.completed' ng-change="toggleCompleted()" aria-label="{{chromeTask.content.tag}}" class="md-primary">
+
+                              {{ chromeTask.content.tag }}<a class='btn-remove-chromeTask pull-right' ng-click='remove(chromeTask)'><i class='glyphicon glyphicon-remove'></i> </a>
+
+                            </md-checkbox>
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- end of list -->
+
+                </md-content>
+              </md-tab>
+              <md-tab label="all">
+                <md-content> <!--  class="md-padding" -->
+                    <div class='row' id="chromeTask-list" ng-show="chromeTaskList.length == 0">
+                        <div class='col-md-12'>
+                            You don't have any tag. :(
+                        </div>
+                    </div>
+
+                    <!-- List all tasks for current domain -->
+                    <div class='row' id="chromeTask-list" ng-show="chromeTaskList.length" style="margin-bottom: 0px;">
+                        <!--Tags for <b>{{current.domain | lowercase}}</b>: -->
+                        <!--input type='text' id='new-chromeTask' ng-model='filterForTag' class="form-control" placeholder="Filter tag ?"/-->
+
+                        <!-- Enable filtering within list of tasks -->
+                        <div class='col-md-12' >
+                            <!--md-content layout-padding="" layout="row" layout-sm="column"-->
+                                <md-input-container class="noPad" style="line-height:8px">
+                                  <label>Search for specific tag</label>
+                                  <input ng-model="input.searchTag.value">
+                                </md-input-container>
+                            <!--/md-content-->
+                        </div>
+
+                        <div class='chromeTask-item col-md-12' ng-repeat='chromeTask in chromeTaskList | filter:input.searchTag.value | orderBy: createdAt as finalTags track by chromeTask.id' ng-class='{completed: chromeTask.completed}'>
+                            <!--
+                            <input type='checkbox' ng-model='chromeTask.completed' ng-click='toggleCompleted()'/>
+                            <span class='chromeTask-content'><a href="{{chromeTask.content.url}}">{{chromeTask.content.tag}}</a></span>
+                            -->
+                            <!-- there is an problem with ng-click on md-checkbox
+                                http://stackoverflow.com/questions/30509175/ng-click-not-firing-on-checkbox-consistently
+                            -->
+
+                            <span class='chromeTask-content'>
+                            <md-checkbox ng-model='chromeTask.completed' ng-change="toggleCompleted()" aria-label="{{chromeTask.content.tag}}" class="md-primary">
+
+                              {{ chromeTask.content.tag }}<a class='btn-remove-chromeTask pull-right' ng-click='remove(chromeTask)'><i class='glyphicon glyphicon-remove'></i> </a>
+
+                            </md-checkbox>
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- end of list -->
+                </md-content>
+              </md-tab>
+            </md-tabs>
 
         <div class='row'>
-        <form id='chromeTask-form' ng-submit='add()'>
-            <md-content md-theme="docs-dark" layout-padding="1px" layout="row" layout-sm="column">
-                <md-input-container class="noPad">
-                  <label>{{input.newTag.label}}</label>
-                  <input ng-model="input.newTag.value">
-                </md-input-container>
-            </md-content>
-        </form>
-        </div>
-        <div class='row' id="chromeTask-list" ng-show="(chromeTaskList | filter:current.domain).length">
-            <!--Tags for <b>{{current.domain | lowercase}}</b>: -->
-            <!--input type='text' id='new-chromeTask' ng-model='filterForTag' class="form-control" placeholder="Filter tag ?"/-->
-
-            <md-content layout-padding="" layout="row" layout-sm="column">
-                <md-input-container>
-                  <label>{{input.searchTag.label}}</label>
-                  <input ng-model="input.searchTag.value">
-                </md-input-container>
-            </md-content>
-
-            <div class='chromeTask-item col-md-12' ng-repeat='chromeTask in chromeTaskList | filter:current.domain |filter:input.searchTag.value | orderBy: createdAt as finalTags track by chromeTask.id' ng-class='{completed: chromeTask.completed}'>
-                <!--
-                <input type='checkbox' ng-model='chromeTask.completed' ng-click='toggleCompleted()'/>
-                <span class='chromeTask-content'><a href="{{chromeTask.content.url}}">{{chromeTask.content.tag}}</a></span>
-                -->
-                <span class='chromeTask-content'>
-                <md-checkbox ng-model='chromeTask.completed' ng-click="toggleCompleted()" aria-label="{{chromeTask.content.tag}}" class="md-primary">
-                  {{ chromeTask.content.tag }} <a class='btn-remove-chromeTask pull-right' ng-click='remove(chromeTask)'><i class='glyphicon glyphicon-remove'></i> </a>
-                </md-checkbox>
-                </span>
-                
-
-            </div>
-        </div>
-
-        <div class='row' ng-show="(chromeTaskList | filter:current.domain).length">
             <div class='col-md-12'>
                 <div id='toolbar'>
                     <!--a id="btn-remove-all"
@@ -71,15 +131,22 @@
                 </div>
             </div>
         </div>
+          </md-content>
+        <!-- End of tabs -->
+
+        <!--div class='row'>
+            <div class='col-md-12'>
+                <h5>{{ (chromeTaskList | filter: {completed:false}).length}} tag(s)</h5>
+            </div>
+        </div-->
+
+
 
     </div>
 
     <script type="text/javascript" src="lib/jquery/jquery-2.1.3.min.js"></script>
     <script type="text/javascript" src="lib/angular/angular.js"></script>
     <script type="text/javascript" src="lib/bootstrap/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="app/app.js"></script>
-    <script type="text/javascript" src="app/chromeTaskCtrl.js"></script>
-    <script type="text/javascript" src="app/chromeTaskStorage.js"></script>
 
      <!-- Angular Material Dependencies -->
     <script src="lib/angular/angular-animate.js"></script>
@@ -87,5 +154,10 @@
 
     <!-- Angular Material Javascript now available via Google CDN; version 0.10 used here -->
     <script src="lib/angular/angular-material.js"></script>
+
+
+    <script type="text/javascript" src="app/app.js"></script>
+    <script type="text/javascript" src="app/chromeTaskCtrl.js"></script>
+    <script type="text/javascript" src="app/chromeTaskStorage.js"></script>
 </body>
 </html>
