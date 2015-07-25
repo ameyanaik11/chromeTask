@@ -18,7 +18,7 @@
                     <!-- New task for current domain -->
                     <div class='row'>
                         <form id='chromeTask-form' ng-submit='add()' class="col-md-12"> 
-                            <md-input-container class="noPad" style="line-height:8px">
+                            <md-input-container class="noPad">
                               <label>{{input.newTag.label}}</label>
                               <input ng-model="input.newTag.value">
                             </md-input-container>
@@ -26,10 +26,10 @@
                     </div>
 
                     <!-- List all tasks for current domain -->
-                    <div class='row' id="chromeTask-list" ng-show="(chromeTaskList | filter:current.domain).length"  style="margin-bottom: 0px;">
+                    <div class='row' id="chromeTask-list" ng-show="(chromeTaskList | filter:current.domain).length">
                         <!-- Enable filtering within list of tasks -->
                         <div class='col-md-12'>
-                            <md-input-container class="noPad" style="line-height:8px">
+                            <md-input-container class="noPad">
                               <label>{{input.searchTag.label}}</label>
                               <input ng-model="input.searchTag.value">
                             </md-input-container>
@@ -57,10 +57,10 @@
                     </div>
 
                     <!-- List all tasks for current domain -->
-                    <div class='row' id="chromeTask-list" ng-show="chromeTaskList.length" style="margin-bottom: 0px;">
+                    <div class='row' id="chromeTask-list" ng-show="chromeTaskList.length">
                         <!-- Enable filtering within list of tasks -->
                         <div class='col-md-12' >
-                            <md-input-container class="noPad" style="line-height:8px">
+                            <md-input-container class="noPad">
                               <label>Search for specific tag</label>
                               <input ng-model="input.searchTag.value">
                             </md-input-container>
