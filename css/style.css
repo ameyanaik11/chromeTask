@@ -13,6 +13,7 @@ body {
 
 .chromeTask-item .chromeTask-content {
     font-weight: bold;
+    white-space: nowrap;
 }
 .chromeTask-item.completed .chromeTask-content {
     color:darkgray;
@@ -21,7 +22,7 @@ body {
 }
 
 #chromeTask-list {
-    margin-bottom: 10px;
+    margin-bottom: 0px;
 }
 
 #btn-remove-all {
@@ -30,6 +31,9 @@ body {
 
 md-input-container {
 	padding: 0 !important;
+    line-height:8px;
 }
+
 md-input-container .md-input {
 	padding: 1px !important;
+}

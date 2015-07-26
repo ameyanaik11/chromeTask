@@ -68,8 +68,8 @@ angular.module('app').controller('chromeTaskCtrl', ['$scope', '$mdSidenav', 'chr
             $scope.current.domain = matches && matches[1];  // null if no domain is found
 
             // Update input label
-            $scope.input.newTag.label = "New tag for " + $scope.current.domain;
-            $scope.input.searchTag.label = "Tags for " + $scope.current.domain + " (Search ?)";
+            $scope.input.newTag.label = "Add new tag for " + $scope.current.domain;
+            $scope.input.searchTag.label = "Search tags for " + $scope.current.domain;
 
             // Refresh the view
             $scope.$digest();
